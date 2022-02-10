@@ -3,30 +3,41 @@ import "../css/App.css";
 import data from "../sample_data.json";
 
 function Questions(question) {
-  return <h1>{question.text}</h1>;
+  return <h3>{question.text}</h3>;
 }
 
-function NextQuestion(nQuestion) {
-  return <h2>{nQuestion.text}</h2>;
+function Answers(props) {
+  var x = [];
+  let choices = props.answer;
+  console.log(props);
+
+  for (let i = 0; i < choices.length; i++) {
+    x.push(<div>{choices[i]}</div>);
+  }
+  //x.push(<br/>)
+
+  console.log(x);
+  return <div>{x}</div>;
 }
 
-function AnswerOne(props) {
-  return <h1></h1>;
+function NextQuestion(props) {
+  return <button>{props.text}</button>;
 }
 
 function App() {
   let question = 0;
-
+  console.log(data[0].question.questionText);
   return (
     <div className="app">
-      Trivia!
+      <h1>Trivia!</h1>
       <div>
-        <Questions text="Questions Goes Here" />
+        <Questions text={data[0].question.questionText} />
+
+        <Answers answer={data[0].question.answerChoices} />
       </div>
       <div>
-        <NextQuestion text="The Next Questions Goes Here" />
+        <NextQuestion text="Next Question" />
       </div>
-      <button>Cool Button</button>
     </div>
   );
 }
