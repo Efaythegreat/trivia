@@ -20,38 +20,46 @@ function Answers(props) {
     </>
   ));
 
-  //x.push(<br/>)
-
-  //console.log(choice);
   return <div>{choice}</div>;
 }
 
 function App() {
-  var index = 0;
+  const [index, setIndex] = useState(0);
   /*function indexGOBrr(){
     index += 
+    
   }
 */
   // console.log(data[index].question.text);
 
   function NextQuestion(props) {
-    return <button /*onClick={() => indexGoBrr  ()}*/>{props.text}</button>;
+    return (
+      <button
+        onClick={() => {
+          setIndex(index + 1); /*setDisplayQuestion(null) BUG RIGHT HERE*/
+        }}
+      >
+        {props.text}
+      </button>
+    );
   }
 
   const [answerDisplayed, setAnswerDisplayed] = useState(false);
 
+  const [answer, setAnswer] = useState(null);
+
   function showAnswer() {
     let choices = data[index].question.choices;
 
-    for( let i = 0; i < choices.length; i++){
-      if (i === data[index].question.correct_choice_index){
+    for (let i = 0; i < choices.length; i++) {
+      if (i === data[index].question.correct_choice_index) {
         setAnswerDisplayed(true);
         console.log(answerDisplayed);
-
-        return choices[i]
+        //return choices[i];
+        setAnswer(choices[i]);
+      }
+    }
   }
-
-
 
   return (
     <div className="app">
@@ -67,10 +75,9 @@ function App() {
       <div>
         <br />
         <button onClick={() => showAnswer()}>Display Answer</button>
-        <div className="answer"></div>
+        <div>{answer}</div>
       </div>
     </div>
   );
 }
-
 export default App;
