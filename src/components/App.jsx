@@ -2,47 +2,15 @@ import React, { Component, useState } from "react";
 import "../css/App.css";
 import data from "../sample_data.json";
 
+import Answers from "./Answers";
+import NextQuestion from "./NextQuestion";
+
 function Questions(question) {
   return <h3>{question.text}</h3>;
 }
 
-function Answers(props) {
-  let choices = props.answer;
-  //console.log(props);
-
-  /* for (let i = 0; i < choices.length; i++) {
-    x.push(<div>{choices[i]}</div>);
-  }
-  */
-  let choice = choices.map((x) => (
-    <>
-      <div>{x}</div> <br />
-    </>
-  ));
-
-  return <div>{choice}</div>;
-}
-
 function App() {
   const [index, setIndex] = useState(0);
-  /*function indexGOBrr(){
-    index += 
-    
-  }
-*/
-  // console.log(data[index].question.text);
-
-  function NextQuestion(props) {
-    return (
-      <button
-        onClick={() => {
-          setIndex(index + 1); /*setDisplayQuestion(null) BUG RIGHT HERE*/
-        }}
-      >
-        {props.text}
-      </button>
-    );
-  }
 
   const [answerDisplayed, setAnswerDisplayed] = useState(false);
 
@@ -56,8 +24,19 @@ function App() {
         setAnswerDisplayed(true);
         console.log(answerDisplayed);
         //return choices[i];
-        setAnswer(choices[i]);
+        setAnswer("The Correct Answer is " + choices[i]);
       }
+    }
+  }
+
+  function correctness(answer) {
+    if (
+      answer ===
+      data[index].question.choices[data[index].question.correct_choice_index]
+    ) {
+      setAnswer("That's Correct!!");
+    } else {
+      setAnswer("Nope, it's not " + answer);
     }
   }
 
@@ -67,14 +46,24 @@ function App() {
       <div>
         <Questions text={data[index].question.text} />
 
-        <Answers answer={data[index].question.choices} />
+        <Answers
+          answer={data[index].question.choices}
+          correctness={correctness}
+        />
       </div>
       <div>
-        <NextQuestion text="Next Question" />
+        <NextQuestion
+          data={data}
+          setIndex={setIndex}
+          index={index}
+          text="Next Question"
+          setAnswer={setAnswer}
+        />
       </div>
       <div>
         <br />
         <button onClick={() => showAnswer()}>Display Answer</button>
+        <p></p>
         <div>{answer}</div>
       </div>
     </div>
