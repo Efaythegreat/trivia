@@ -42,7 +42,9 @@ function App() {
 
   return (
     <div className="app">
-      <h1>Trivia!</h1>
+      <div className="title">
+        <h1>Trivia!</h1>
+      </div>
       <div>
         <Questions text={data[index].question.text} />
 
